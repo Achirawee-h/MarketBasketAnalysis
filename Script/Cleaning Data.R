@@ -22,9 +22,7 @@ class(df)
 
 summary(df)
 
-df <- df %>% drop_na() %>% distinct() %>% mutate(Description = as.factor(Description), Country = as.factor(Country)) %>% mutate(Description = str_to_title(Description)) %>% mutate(InvoiceTime = format(InvoiceDate, "%H:%M:%S"), InvoiceDate = format(InvoiceDate, "%d-%m-%Y"))
-
-df
+df <- df %>% drop_na() %>% filter(Quantity > 0) %>% filter(UnitPrice > 0) %>% mutate(Description = as.factor(Description), Country = as.factor(Country)) %>% mutate(Description = str_to_title(Description)) %>% mutate(InvoiceTime = format(InvoiceDate, "%H:%M:%S"), InvoiceDate = as.Date(InvoiceDate, format="%m/%d%y")) %>% mutate(CustomerID = as.character(CustomerID))
 
 write_xlsx(df,"Output/Data/Cleaned Online Retail.xlsx")
 
